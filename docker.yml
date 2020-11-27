@@ -1,0 +1,40 @@
+- hosts: all
+  tasks:
+          - name: creating a docker repository
+            yum_repository:
+                 description: "repo for docker"
+                 name: "docker-ce"
+                 baseurl: "https://download.docker.com/linux/centos/7/x86_64/stable/"
+                 gpgcheck: "no"
+
+          - name: installing docker
+            package:
+                 name: "docker-ce-18.09.1-3.el7.x86_64"
+                 state: present
+
+          - name: starting docker service
+            service:
+                 name: docker
+                 state: started
+          - pip:
+                  name: docker-py
+
+          - name: pulling the docker image
+            docker_image:
+                    name: httpd
+                    source: pull
+
+          - name: copying file into home
+            copy:
+                    src: /home/ec2-user/index.html
+                    dest: /home
+
+          - name: creating a docker container for webserver
+            community.general.docker_container:
+                    name: webserver
+                    image: httpd
+                    ports: "8081:80"
+                    state: started
+                    detach: yes
+                    volumes: /home/:/usr/local/apache2/htdocs/
+
