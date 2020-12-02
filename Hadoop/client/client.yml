@@ -1,0 +1,65 @@
+- hosts: client
+  vars_files:
+     - client_var.yml
+  tasks:
+  - name: "Copying the hadoop File"
+    copy:
+     src: "{{ hadoop_path }}"
+     dest: "/root/"
+  - name: "Copying the JDK File"
+    copy:
+     src: "{{ jdk_path }}"
+     dest: "/root/"
+
+  - name: "Installing Jdk"
+    shell: "rpm -ivh {{ jdk_software }}"
+    ignore_errors: yes
+    register: Java
+    ignore_errors: yes
+  - name: "Java Installation"
+    debug:
+      var: Java.stdout
+  - name: "Installing Hadoop"
+    shell: "rpm -ivh {{ hadoop_software }}  --force"
+    register: Hadoop
+    ignore_errors: yes
+  - name: "Hadop Installation"
+    debug:
+      var: Hadoop.stdout
+  - name: "Copying the core-site.xml file"
+    copy:
+      src: "{{ core_site }}"
+      dest: "/etc/hadoop/"
+
+  - name: "Files Avalable"
+    shell: "{{ client_report }}"
+    register: files
+  - name: "Showing Files"
+    debug:
+     var: files
+
+  - name: "Deleting Previous Files"
+    shell: "{{ remove_file }}"
+    ignore_errors: yes
+
+  - name: "Copying the files to client node"
+    copy:
+      src: "{{ client_file_src }}"
+      dest: "{{ client_file_dest }}"
+
+  - name: "Uploading the Files by client"
+    shell: "{{ put_file }}"
+  - name: "Files Avalable"
+    shell: "{{ client_report }}"
+    register: files
+
+  - name: "Showing Files"
+    debug:
+     var: files
+  - name: "Running Hadoop Report"
+    shell: "{{ hadoop_report }}"
+    register: hadoop_report
+  - name: "Shoowing Hadoop Report"
+    debug:
+     var: hadoop_report.stdout
+
