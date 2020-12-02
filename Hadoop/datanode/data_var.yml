@@ -1,0 +1,23 @@
+hadoop_path: "/home/ec2-user/hadoop-1.2.1-1.x86_64.rpm"
+
+jdk_path: "/home/ec2-user/jdk-8u171-linux-x64.rpm"
+
+hadoop_software: "/root/hadoop-1.2.1-1.x86_64.rpm"
+
+jdk_software: "/root/jdk-8u171-linux-x64.rpm"
+
+core_site: "/home/ec2-user/datanode_files/core-site.xml"
+
+hdfs_site: "/home/ec2-user/datanode_files/hdfs-site.xml"
+
+directory_path: "/dn"
+
+start_datanode: "hadoop-daemon.sh start datanode"
+
+run_jps: "jps"
+
+directory_delete: "rm -rf /dn1"
+
+stop_datanode: "hadoop-daemon.sh stop datanode"
+
+hadoop_report: "hadoop dfsadmin -report"
