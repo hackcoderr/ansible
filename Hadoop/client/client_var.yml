@@ -1,0 +1,23 @@
+hadoop_path: "/home/ec2-user/hadoop-1.2.1-1.x86_64.rpm"
+
+jdk_path: "/home/ec2-user/jdk-8u171-linux-x64.rpm"
+
+hadoop_software: "/root/hadoop-1.2.1-1.x86_64.rpm"
+
+jdk_software: "/root/jdk-8u171-linux-x64.rpm"
+
+core_site: "/home/ec2-user/client_files/core-site.xml"
+
+hadoop_report: "hadoop dfsadmin -report"
+
+client_report: "hadoop fs -ls  /"
+
+file_name: "file.txt"
+
+put_file: "hadoop fs -put  /root/{{ file_name }}   / "
+
+client_file_src: "/home/ec2-user/client_files/{{ file_name }}"
+
+remove_file: "hadoop fs -rm /{{ file_name }}"
+
+client_file_dest: "/root/"
