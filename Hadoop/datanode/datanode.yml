@@ -1,0 +1,87 @@
+- hosts: datanode
+  vars_files:
+     - data_var.yml
+  tasks:
+  - name: "Copying the hadoop File"
+    copy:
+     src: "{{ hadoop_path }}"
+     dest: "/root/"
+  - name: "Copying the JDK File"
+    copy:
+     src: "{{ jdk_path }}"
+     dest: "/root/"
+
+  - name: "Installing Jdk"
+    shell: "rpm -ivh {{ jdk_software }}"
+    register: Java
+    ignore_errors: yes
+  - name: "Java Installation"
+    debug:
+      var: Java.stdout
+
+  - name: "Installing Hadoop"
+    shell: "rpm -ivh {{ hadoop_software }}  --force"
+    register: Hadoop
+    ignore_errors: yes
+  - name: "Hadop Installation"
+    debug:
+      var: Hadoop.stdout
+
+  - name: "Copying the core-site.xml file"
+    copy:
+      src: "{{ core_site }}"
+      dest: "/etc/hadoop/"
+
+  - name: "Copying the hdfs-site.xml file"
+    copy:
+      src: "{{ hdfs_site }}"
+      dest: "/etc/hadoop/"
+
+  - name: "Deleting the directory"
+    shell: "{{ directory_delete }}"
+    ignore_errors: yes
+
+  - name: "Creating a directory"
+    file:
+      state: directory
+      path: "{{ directory_path }}"
+
+  - name: "Formatting the directory"
+    shell: "echo Y |  hadoop namenode -format"
+    ignore_errors: yes
+    register: format
+  - name: "Formating NameNode"
+    debug:
+      var: format.stdout
+
+  - name: "Stoping the namenode"
+    shell: "{{ stop_datanode }}"
+    ignore_errors: yes
+    register: hadoop_stopped
+  - name: "Stopping hadoop"
+    debug:
+     var: hadoop_stopped.stdout
+
+  - name: "Starting the namenode"
+    shell: "{{ start_datanode }}"
+    ignore_errors: yes
+    register: hadoop_started
+  - name: "Started hadoop"
+    debug:
+     var: hadoop_started.stdout
+
+  - name: "Java Process"
+    shell: "{{ run_jps }}"
+    register: jps
+  - name: "Java Process"
+    debug:
+     var: jps.stdout  - name: "Running Hadoop Report"
+    shell: "{{ hadoop_report }}"
+    register: hadoop_report
+  - name: "Shoowing Hadoop Report"
+    debug:
+     var: hadoop_report.stdout
+
+
+     
+     
