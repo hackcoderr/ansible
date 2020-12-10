@@ -4,7 +4,7 @@
 
 **Repository has the following anisble playbooks**
 
-* Docker
+:whale2: Docker
 
 * Hadoop
 
