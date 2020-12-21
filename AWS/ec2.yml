@@ -1,1 +1,47 @@
-this is for ec2 instance ansible playbook
+- hosts: "localhost"
+
+  vars_files:
+
+      - secret_key.yml
+
+  tasks:
+
+  - name: "provisioning OS on AWS using Ansible"
+
+    ec2:
+
+       key_name: "openstack"
+
+       instance_type: "t2.micro"
+
+       image: "ami-052c08d70def0ac62"
+
+       wait: yes
+
+       count: 1
+
+       instance_tags:
+
+          Name: aws_ansible_ec2
+ 
+      vpc_subnet_id: "subnet-0f52803afe10747e7"
+
+       assign_public_ip: yes
+ 
+       region: "ap-south-1"
+
+       state: present
+
+       group_id: "sg-09f6ca37ea9000fc8"
+
+       aws_access_key: "{{aws_access_key}}"
+
+       aws_secret_key: "{{aws_secret_key}}"
+
+    register: X
+
+
+  - debug:
+  
+
+     var:  X.instances[0].private_ip
