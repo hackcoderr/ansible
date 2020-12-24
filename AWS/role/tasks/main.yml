@@ -1,0 +1,13 @@
+---
+# tasks file for web_role
+- package:
+        name: "httpd"
+        state: present
+
+- copy:
+        dest: "/var/www/html/"
+        src: "files/home.html"
+
+- service:
+        name: "httpd"
+        state: started
