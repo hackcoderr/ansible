@@ -1,47 +1,24 @@
 - hosts: "localhost"
-
   vars_files:
-
-      - secret_key.yml
+      - secrets.yml
 
   tasks:
-
-  - name: "provisioning OS on AWS using Ansible"
-
+  - name: "Provisioning OS on AWS using Ansible"
     ec2:
-
-       key_name: "openstack"
-
+       key_name: "key"
        instance_type: "t2.micro"
-
-       image: "ami-052c08d70def0ac62"
-
+       image: "ami-0a9d27a9f4f5c0efc"
        wait: yes
-
        count: 1
-
        instance_tags:
-
-          Name: aws_ansible_ec2
- 
-      vpc_subnet_id: "subnet-0f52803afe10747e7"
-
+          Name: AWS_Ansib_Instance
+       vpc_subnet_id: "subnet-d77560bf"
        assign_public_ip: yes
- 
        region: "ap-south-1"
-
        state: present
-
-       group_id: "sg-09f6ca37ea9000fc8"
-
-       aws_access_key: "{{aws_access_key}}"
-
-       aws_secret_key: "{{aws_secret_key}}"
-
+       group_id: "sg-0108a92e39352ebf8"
+       aws_access_key: "{{access_key}}"
+       aws_secret_key: "{{secret_key}}"
     register: X
 
 
-  - debug:
-  
-
-     var:  X.instances[0].private_ip
