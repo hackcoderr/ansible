@@ -18,6 +18,8 @@
 
 * Dynamic-Httpd-Configuration
 
+* AWS Load Balancer
+
 
 ***<𝚌𝚘𝚍𝚎𝚛𝚜/>! <img src="https://github.com/TheDudeThatCode/TheDudeThatCode/blob/master/Assets/Hi.gif" width="29px">, If this repo is useful to you then you can follow me on Github and visit my Github profile, hopefully, you will learn something here.***
 
