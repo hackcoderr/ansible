@@ -1,0 +1,37 @@
+---
+- hosts: 13.233.58.20 
+  become: yes
+  gather_facts: false
+  tasks:
+    - name: Create hostname for MASTER-NODE
+      shell:
+         "sudo hostnamectl set-hostname k8s-master"
+
+
+- hosts: 3.110.49.185 
+  become: yes
+  gather_facts: false
+  tasks:
+    - name: Create hostname for WORKER-NODE-1
+      shell:
+         "sudo hostnamectl set-hostname worker1"
+
+
+- hosts: 3.109.1.168 
+  become: yes
+  gather_facts: false
+  tasks:
+    - name: Create hostname for WORKER-NODE-2
+      shell:
+         "sudo hostnamectl set-hostname worker-2"
+
+
+- hosts: controller-plane, workers
+  become: yes
+  gather_facts: false
+  tasks:
+    - name: debugging HOSTNAME
+      shell:
+         "hostname"
+      register: hostcmd
+    - debug: msg="{{hostcmd.stdout}}"
